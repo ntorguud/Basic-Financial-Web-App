@@ -1,13 +1,23 @@
 //UI controller
 var uiController = (function() {
-    var x = 100;
-    function add(y) {
-        return x + y;
-    }
+    var DOMstrings = {
+        inputType: ".add__type",
+        inputDescription: ".add__description",
+        inputValue: ".add__value",
+        addBtn: ".add__btn"
+    };
+
     return {
-        publicAdd: function(a) {
-            a = add(a);
-            console.log('Analyzed data : ' + a);
+        getInput: function() {
+            return {
+                type: document.querySelector(DOMstrings.inputType).value,
+                description: document.querySelector(DOMstrings.inputDescription).value,
+                value: document.querySelector(DOMstrings.inputValue).value
+            };
+        },
+
+        getDOMstrings: function() {
+            return DOMstrings;
         }
     }
 })();
@@ -17,12 +27,15 @@ var financeController = (function() {
     console.log('Hello');
 })();
 
+
 //Connector controller
-var appController = (function(uiCtrl,fnCtrl) {
+var appController = (function(uiController,financeController) {
+
+    var DOM = uiController.getDOMstrings();
 
     var ctrlAddItem = function() {
-        //1. Oruulah data-g ui-s olj avna.
-        console.log("Delgetsees datagaa avah heseg");
+        //1. Oruulah data-g UI-s olj avna.
+        console.log(uiController.getInput());
         //2. Data-gaa financeController-t damjuulj hadgalna.
 
         //3. Data-g web-iin torhiroh hesegt gargana.
@@ -32,7 +45,7 @@ var appController = (function(uiCtrl,fnCtrl) {
         //5. Show Final balance in the display.
     };
     
-    document.querySelector(".add__btn").addEventListener("click", function() {
+    document.querySelector(DOM.addBtn).addEventListener("click", function() {
         ctrlAddItem();
     });
 
