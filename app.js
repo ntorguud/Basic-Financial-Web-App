@@ -31,8 +31,6 @@ var financeController = (function() {
 //Connector controller
 var appController = (function(uiController,financeController) {
 
-    var DOM = uiController.getDOMstrings();
-
     var ctrlAddItem = function() {
         //1. Oruulah data-g UI-s olj avna.
         console.log(uiController.getInput());
@@ -45,16 +43,28 @@ var appController = (function(uiController,financeController) {
         //5. Show Final balance in the display.
     };
     
-    document.querySelector(DOM.addBtn).addEventListener("click", function() {
-        ctrlAddItem();
-    });
+    var setUpEventListeners = function() {
+        var DOM = uiController.getDOMstrings();
 
-    document.addEventListener("keypress", function(event) {
-        if(event.keyCode === 13 | event.which === 13) {
-            ctrlAddItem(); //event.which -- in old browsers
-        } 
-    });
+        document.querySelector(DOM.addBtn).addEventListener("click", function() {
+            ctrlAddItem();
+        });
+    
+        document.addEventListener("keypress", function(event) {
+            if(event.keyCode === 13 | event.which === 13) {
+                ctrlAddItem(); //event.which -- in old browsers
+            } 
+        });
+    }
+        return {
+            init: function() {
+                console.log('Application started.');
+                setUpEventListeners();
+            }
+        }
 })(uiController, financeController);
+
+appController.init();
 
 
 // var hunController = (function() {
