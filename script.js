@@ -21,7 +21,7 @@ var i2 = new Income(1, 'Lottery', 3000000);
 // console.log(incomes[1].description);
 
 var data = {
-    allItems: {
+    items: {
         inc: [],
         exp: []
     },
@@ -32,5 +32,9 @@ var data = {
     }
 };
 
-data.allItems.inc.push(i1);
-console.log(data.totals.inc);
+var type = 'inc';
+var desc = 'Salary';
+var val = 2500000;
+
+data.items[type].push(desc);
+console.log(data.items['inc']);
