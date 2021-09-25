@@ -4,7 +4,9 @@ var uiController = (function() {
       inputType: ".add__type",
       inputDescription: ".add__description",
       inputValue: ".add__value",
-      addBtn: ".add__btn"
+      addBtn: ".add__btn",
+      incomeList: ".income__list",
+      expensesList: ".expenses__list"
     };
   
     return {
@@ -24,11 +26,11 @@ var uiController = (function() {
         // ÐžÑ€Ð»Ð¾Ð³Ð¾ Ð·Ð°Ñ€Ð»Ð°Ð³Ñ‹Ð½ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð¸Ð¹Ð³ Ð°Ð³ÑƒÑƒÐ»ÑÐ°Ð½ html-Ð¸Ð¹Ð³ Ð±ÑÐ»Ñ‚Ð³ÑÐ½Ñ.
         var html, list;
         if (type === "inc") {
-          list = ".income__list";
+          list = DOMstrings.incomeList;
           html =
             '<div class="item clearfix" id="income-%id%"><div class="item__description">$$DESCRIPTION$$</div><div class="right clearfix"><div class="item__value">$$VALUE$$</div><div class="item__delete">            <button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div>        </div></div>';
         } else {
-          list = ".expenses__list";
+          list = DOMstrings.expensesList;
           html =
             '<div class="item clearfix" id="expense-%id%"><div class="item__description">$$DESCRIPTION$$</div>          <div class="right clearfix"><div class="item__value">$$VALUE$$</div><div class="item__percentage">21%</div><div class="item__delete"><button class="item__delete--btn">                <i class="ion-ios-close-outline"></i></button></div></div></div>';
         }

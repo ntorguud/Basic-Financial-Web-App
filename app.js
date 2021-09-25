@@ -4,7 +4,9 @@ var uiController = (function() {
         inputType: ".add__type", //return inc or exp
         inputDescription: ".add__description",
         inputValue: ".add__value",
-        addBtn: ".add__btn"
+        addBtn: ".add__btn",
+        incomeList: ".income__list",
+        expensesList: ".expenses__list"
     };
 
     return {
@@ -23,13 +25,13 @@ var uiController = (function() {
         //Lesson 69
         addListItem: function(item, type) {
             // Preparing HTML which includes income and expense elements.
-            var html, incExpList;
+            var html, list;
             
             if(type === "inc") {
-                incExpList = ".income__list";
+                list = DOMstrings.incomeList;
                 html = '<div class="item clearfix" id="income-%id%"><div class="item__description">%Description%</div><div class="right clearfix"><div class="item__value">$Value$</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>';
             } else {
-                incExpList = ".expenses__list";
+                list = DOMstrings.expensesList;
                 html = '<div class="item clearfix" id="expense-%id%"><div class="item__description">%Description%</div><div class="right clearfix"><div class="item__value">$Value$</div><div class="item__percentage">21%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>';
             }
 
