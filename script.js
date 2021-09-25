@@ -32,9 +32,9 @@ var data = {
     }
 };
 
-var type = 'inc';
+var type = 'inc'; //ali ruu n orohiig end shiidne.
 var desc = 'Salary';
 var val = 2500000;
 
 data.items[type].push(desc);
-console.log(data.items['inc']);
+console.log(data.items);

@@ -52,14 +52,19 @@ var financeController = (function() {
             var item, id;
             if(data.items[type].length === 0) id = 1;
             else {
-                data.items
+                id = data.items[type][data.items[type].length - 1].id + 1;
             }
+
             if(type === 'inc') {
                 item = new Income(id, desc, val);
             } else {
                 item = new Expense(id, desc, val);
             }
             data.items[type].push(item);
+        },
+
+        data: function() {
+            return data;
         }
     }
 })();
@@ -71,7 +76,6 @@ var appController = (function(uiController,financeController) {
     var ctrlAddItem = function() {
         //1. Oruulah data-g UI-s olj avna.
         var input = uiController.getInput();
-        console.log(input);
     
         //2. Data-gaa financeController-t damjuulj hadgalna.
         financeController.addItem(input.type, input.description, input.value);
