@@ -35,8 +35,8 @@ var uiController = (function() {
 
             // Replace income and expense values in this HTML.
             html = html.replace("%id%", item.id);
-            html = html.replace("%Description%", item.description);
-            html = html.replace("$Value$", item.value);
+            html = html.replace("%Description%", item.desc);
+            html = html.replace("$Value$", item.val);
 
             //Put HTML into the DOM.
             document.querySelector(incExpList).insertAdjacentHTML("beforeend", html);
