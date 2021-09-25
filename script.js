@@ -38,3 +38,32 @@ var val = 2500000;
 
 data.items[type].push(desc);
 console.log(data.items);
+
+// ********************** //
+
+var html = '<p>Hello World0</p><p>Hello World1</p><p>Hello World2</p>';
+
+html = html.replace(/p/gi, 'strong'); //global.r buh p tag.iig solih, upper & lower case
+
+    //beforebegin *****
+
+// <div class='inc' style='background-color: green; color: white; padding: 50px;'>
+
+    //aftebegin *****
+
+// <h1>Income</h1>
+
+    //beforeend *****
+
+// </div>
+
+    //afterend *****
+
+// <div class="exp" style="background-color: red; color: white; padding: 50px;">
+
+// <h1>Expense</h1>
+
+// </div>
+var incDiv = document.querySelector('.inc');
+
+incDiv.insertAdjacentHTML('beforeend', 'Hello!');

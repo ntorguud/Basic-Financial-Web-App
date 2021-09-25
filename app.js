@@ -18,8 +18,30 @@ var uiController = (function() {
 
         getDOMstrings: function() {
             return DOMstrings;
+        },
+
+        //Lesson 69
+        addListItem: function(item, type) {
+            // Preparing HTML which includes income and expense elements.
+            var html, incExpList;
+            
+            if(type === "inc") {
+                incExpList = ".income__list";
+                html = '<div class="item clearfix" id="income-%id%"><div class="item__description">%Description%</div><div class="right clearfix"><div class="item__value">$Value$</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>';
+            } else {
+                incExpList = ".expenses__list";
+                html = '<div class="item clearfix" id="expense-%id%"><div class="item__description">%Description%</div><div class="right clearfix"><div class="item__value">$Value$</div><div class="item__percentage">21%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>';
+            }
+
+            // Replace income and expense values in this HTML.
+            html = html.replace("%id%", item.id);
+            html = html.replace("%Description%", item.description);
+            html = html.replace("$Value$", item.value);
+
+            //Put HTML into the DOM.
+            document.querySelector(incExpList).insertAdjacentHTML("beforeend", html);
         }
-    }
+    };
 })();
 
 //Private data
@@ -28,13 +50,13 @@ var financeController = (function() {
         this.id = id;
         this.description = description;
         this.value = value;
-    }
+    };
     
     var Expense = function(id, description, value) {
         this.id = id;
         this.description = description;
         this.value = value;
-    }
+    };
     
     var data = {
         items: {
@@ -55,32 +77,38 @@ var financeController = (function() {
                 id = data.items[type][data.items[type].length - 1].id + 1;
             }
 
-            if(type === 'inc') {
+            if(type === "inc") {
                 item = new Income(id, desc, val);
             } else {
                 item = new Expense(id, desc, val);
             }
             data.items[type].push(item);
+
+            return item();
         },
 
-        data: function() {
+        seeData: function() {
             return data;
-        }
-    }
+        }    
+    };
 })();
 
 
 //Connector controller
-var appController = (function(uiController,financeController) {
+var appController = (function(uiController, financeController) {
 
     var ctrlAddItem = function() {
         //1. Oruulah data-g UI-s olj avna.
         var input = uiController.getInput();
     
         //2. Data-gaa financeController-t damjuulj hadgalna.
-        financeController.addItem(input.type, input.description, input.value);
+        var item = financeController.addItem(
+            input.type, 
+            input.description, 
+            input.value);
 
         //3. Data-g web-iin torhiroh hesegt gargana.
+        uiController.addListItem(item, input.type);
 
         //4. Calculate budget
 
@@ -99,13 +127,14 @@ var appController = (function(uiController,financeController) {
                 ctrlAddItem(); //event.which -- in old browsers
             } 
         });
-    }
-        return {
-            init: function() {
-                console.log('Application started.');
-                setUpEventListeners();
-            }
+    };
+        
+    return {
+        init: function() {
+            console.log('Application started.');
+            setUpEventListeners();
         }
+     };
 })(uiController, financeController);
 
 appController.init();
