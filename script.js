@@ -67,3 +67,5 @@ html = html.replace(/p/gi, 'strong'); //global.r buh p tag.iig solih, upper & lo
 var incDiv = document.querySelector('.inc');
 
 incDiv.insertAdjacentHTML('beforeend', 'Hello!');
+
+//focus will show where the cursor is
