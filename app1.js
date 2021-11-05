@@ -77,6 +77,15 @@ var uiController = (function() {
       this.description = description;
       this.value = value;
     };
+
+    var calculateTotal = function(type) {
+      var sum = 0;
+      DOMMatrixReadOnly.items[type].forEach(function(el) {
+        sum = sum + el.value;
+      });
+
+      data.totals[type] = sum;
+    }
   
     // private data
     var data = {
@@ -88,10 +97,37 @@ var uiController = (function() {
       totals: {
         inc: 0,
         exp: 0
-      }
+      },
+
+      budget: 0, 
+
+      percent: 0
     };
   
     return {
+      calculateBudget: function() {
+        // Total income-iin niilberiig tootsoolno.
+        calculateTotal('inc');
+        calculateTotal('exp');
+
+        data.budget = data.totals.inc - data.totals.exp;
+
+        //Tusviig shineer tootsooloh 
+
+        //Orlogo, zarlagiin percentiig tootsoolno.
+        data.percent = math.round((data.totals.exp / data.totals.inc) * 100);
+
+      },
+
+      getBudget: function() {
+        return {
+          budget: data.budget,
+          percent = data.percent,
+          totalInc = data.totals.inc,
+          totalExp = data.totals.exp
+        }
+      },
+
       addItem: function(type, desc, val) {
         var item, id;
   
@@ -137,7 +173,13 @@ var uiController = (function() {
             uiController.clearFields();
         
             // 4. Ð¢Ó©ÑÐ²Ð¸Ð¹Ð³ Ñ‚Ð¾Ð¾Ñ†Ð¾Ð¾Ð»Ð½Ð¾
+            financeController.calculateBudget();
+
             // 5. Ð­Ñ†ÑÐ¸Ð¹Ð½ Ò¯Ð»Ð´ÑÐ³Ð´ÑÐ», Ñ‚Ð¾Ð¾Ñ†Ð¾Ð¾Ð³ Ð´ÑÐ»Ð³ÑÑ†ÑÐ½Ð´ Ð³Ð°Ñ€Ð³Ð°Ð½Ð°.
+            var budget = financeController.getBudget();
+
+            //6. Etsiin tusviin tootsoog delgetsend gargana.
+            console.log(budget);
           };
         };
   
