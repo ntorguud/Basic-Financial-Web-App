@@ -18,7 +18,7 @@ var i2 = new Income(1, 'Lottery', 3000000);
 // incomes.push(i1);
 // incomes.push(i2);
 
-// console.log(incomes[1].description);
+// console.log(incomes[1].description); Sugalaa hojson gedeg uguulber garch irsen
 
 var data = {
     items: {
