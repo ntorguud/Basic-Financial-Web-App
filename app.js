@@ -9,7 +9,7 @@ var uiController = (function() {
     return {
         getInput: function() {
             return {
-                type: document.querySelector(DOMstrings.inputType).value,
+                type: document.querySelector(DOMstrings.inputType).value,  //inc/ exp
                 description: document.querySelector(DOMstrings.inputDescription).value,
                 value: document.querySelector(DOMstrings.inputValue).value
             };
@@ -36,7 +36,7 @@ var financeController = (function() {
     };
 
     var data = {
-        allItems: {
+        items: {
             inc: [],
             exp: []
         },
@@ -47,7 +47,33 @@ var financeController = (function() {
         }
     };
 
-    // data.allItems.inc.push(i1);
+    return {
+        addItem: function(type, description, value) {
+            
+            var item, id;
+
+            if(data.items[type].length === 0) id = 1;
+            
+            else {
+                id = data.items[type][data.items[type].length - 1].id + 1;  //data.items[type] is an ARRAY !!!!
+            }
+
+            if(type === 'inc') {
+                item = new Income(id, description, value);
+            } else {
+                //type === 'exp'
+                item = new Expense(id, description, value);
+            }
+
+            data.items[type].push(item);
+        },
+
+        seeData: function() {
+            return data;
+        }
+    };
+
+    // data.items.inc.push(i1);
 
     // console.log(data.totals.inc);
 
@@ -67,6 +93,7 @@ var appController = (function(uiController, financeController) {
         console.log(uiController.getInput());
 
         //2. Olj avsan ugugdluudee fnCtrl-t damjuulj tend hadgalna.
+        financeController.addItem(input.type, input.description, input.value);
 
         //3. Olj avsan datanuudaa webiin tohiroh hesguud deer gargana.
 
