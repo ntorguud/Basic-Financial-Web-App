@@ -32,6 +32,9 @@ var uiController = (function() {
                 el.value = "";
             });
 
+            fieldsArr[0].focus(); 
+            //after clearfields, put the cursor into the description bar
+
             // for(var i = 0; i < fieldsArr.length; i++ ) {
             //     fieldsArr[i].value = '';
             // }
@@ -115,10 +118,6 @@ var financeController = (function(){
             return data;
         }
     };
-
-    
-
-
 })();
 
 
@@ -131,7 +130,8 @@ var appController = (function(uiController, financeController) {
     var ctrlAddItem = function() {
         //1. Oruulah datag delgetsees olj avna.
        var input = uiController.getInput();
-       
+
+       if(input.description !== "" && input.value !== "") {       
        //2. Olj avssan datagaa finControllert damjuulj tend hadgalna.
        var item = financeController.addItem(input.type, input.description, input.value);
 
@@ -142,6 +142,7 @@ var appController = (function(uiController, financeController) {
        //4. Budgetiig tootsoolno.
 
        //5. Final uldegdel, tootsoog delgetsend gargana.
+       }
     };
 
     var setupEventListeners = function() {
