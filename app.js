@@ -9,7 +9,7 @@ var uiController = (function() {
     return {
         getInput: function() {
             return {
-                type: document.querySelector(DOMstrings.inputType).value,
+                type: document.querySelector(DOMstrings.inputType).value, // inc, exp
                 description: document.querySelector(DOMstrings.inputDescription).value,
                 value: document.querySelector(DOMstrings.inputValue).value
             };
@@ -17,6 +17,27 @@ var uiController = (function() {
 
         getDOMstrings: function() {
             return DOMstrings;
+        },
+
+        addListItem: function(item, type) {
+            //1. Orlogo, zarlagiin elementiig aguulsan html-iig beldene.
+            var html, list;
+
+            if(type === 'inc') {
+                list = ".income__list";
+                html = '<div class="item clearfix" id="income-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">$value$</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>'
+            } else {
+                list = ".expenses__list";
+                html = '<div class="item clearfix" id="expense-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">$value$</div><div class="item__percentage">21%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>'
+            }
+
+            //2. In that html, orlogo, zarlagiin utguudiig replace ashiglan uurchilj ugnu.
+            html = html.replace('%id%', item.id);
+            html = html.replace('%description%', item.desc);
+            html = html.replace('$value$', item.value);
+
+            //3. Beltgesen html-ee DOM ruu hiine.
+            document.querySelector(list).insertAdjacentHTML('beforeend', html);
         }
     };
 
@@ -51,6 +72,35 @@ var financeController = (function(){
         }
     };
 
+    return {
+        addItem: function(type, desc, val) {
+            var item, id;
+
+            if(data.items[type].length === 0) id = 1; 
+            else {
+                id = data.items[type][data.items[type].length - 1].id + 1;
+            }
+
+            if(type === 'inc') {
+                item = new Income(id, desc, val);
+            } else {
+                //type === exp
+                item = new Expense(id, desc, val);
+            }
+
+            data.items[type].push(item);
+
+            return item;
+        },
+
+        seeData: function() {
+            return data;
+        }
+    };
+
+    
+
+
 })();
 
 
@@ -62,10 +112,13 @@ var appController = (function(uiController, financeController) {
 
     var ctrlAddItem = function() {
         //1. Oruulah datag delgetsees olj avna.
-       uiController.getInput();
+       var input = uiController.getInput();
+       
        //2. Olj avssan datagaa finControllert damjuulj tend hadgalna.
+       var item = financeController.addItem(input.type, input.description, input.value);
 
        //3. Olj avsan datanuudaa web deeree tohiroh hesegt gargana.
+       uiController.addListItem(item, input.type);
 
        //4. Budgetiig tootsoolno.
 
