@@ -3,7 +3,9 @@ var uiController = (function() {
         inputType: ".add__type",
         inputDescription: ".add__description",
         inputValue: ".add__value",
-        addBtn: ".add__btn"
+        addBtn: ".add__btn",
+        incomeList: ".income__list",
+        expenseList: ".expenses__list"
     };
 
     return {
@@ -19,15 +21,31 @@ var uiController = (function() {
             return DOMstrings;
         },
 
+        clearFields: function() {
+            var fields = document.querySelector(DOMstrings.inputDescription + ", " + DOMstrings.inputValue
+            );
+
+            // Convert list to array
+            var fieldsArr = Array.prototype.slice.call(fields);
+
+            fieldsArr.forEach(function(el, index, array) {
+                el.value = "";
+            });
+
+            // for(var i = 0; i < fieldsArr.length; i++ ) {
+            //     fieldsArr[i].value = '';
+            // }
+        },
+
         addListItem: function(item, type) {
             //1. Orlogo, zarlagiin elementiig aguulsan html-iig beldene.
             var html, list;
 
             if(type === 'inc') {
-                list = ".income__list";
+                list = DOMstrings.incomeList;
                 html = '<div class="item clearfix" id="income-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">$value$</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>'
             } else {
-                list = ".expenses__list";
+                list = DOMstrings.expenseList;
                 html = '<div class="item clearfix" id="expense-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">$value$</div><div class="item__percentage">21%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>'
             }
 
@@ -119,6 +137,7 @@ var appController = (function(uiController, financeController) {
 
        //3. Olj avsan datanuudaa web deeree tohiroh hesegt gargana.
        uiController.addListItem(item, input.type);
+       uiController.clearFields();
 
        //4. Budgetiig tootsoolno.
 
