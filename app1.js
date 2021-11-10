@@ -6,7 +6,11 @@ var uiController = (function() {
     inputValue: ".add__value",
     addBtn: ".add__btn",
     incomeList: ".income__list",
-    expenseList: ".expenses__list"
+    expenseList: ".expenses__list",
+    budgetLabel: ".budget__value",
+    incomeLabel: ".budget__income--value",
+    expenseLabel: ".budget__expenses--value",
+    percentageLabel: ".budget__expenses--percentage"
   };
 
   return {
@@ -39,6 +43,22 @@ var uiController = (function() {
       // for (var i = 0; i < fieldsArr.length; i++) {
       //   fieldsArr[i].value = "";
       // }
+    },
+
+    // budget: data.budget,
+    //     percent: data.percent,
+    //     totalInc: data.totals.inc,
+    //     totalExp = data.totals.exp
+
+    showBudget: function(budget) {
+      document.querySelector(DOMstrings.budgetLabel).textContent = budget.budget;
+      document.querySelector(DOMstrings.incomeLabel).textContent = budget.totalInc;
+      document.querySelector(DOMstrings.expenseLabel).textContent = budget.totalExp;
+
+      if(budget.percent !== 0) {
+      document.querySelector(DOMstrings.percentageLabel).textContent = budget.percent + "%";} else {
+        document.querySelector(DOMstrings.percentageLabel).textContent = budget.percent
+      }
     },
 
     addListItem: function(item, type) {
@@ -177,9 +197,9 @@ var appController = (function(uiController, financeController) {
       var budget = financeController.getBudget();
 
       //6. Tusviin tootsoog delgetsend gargah
-      console.log(budget);
-    }
-  };
+      uiController.showBudget(budget);
+  }
+};
 
   var setupEventListeners = function() {
     var DOM = uiController.getDOMstrings();
