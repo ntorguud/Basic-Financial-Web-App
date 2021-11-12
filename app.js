@@ -11,7 +11,14 @@ var uiController = (function() {
       incomeLabel: ".budget__income--value",
       expeseLabel: ".budget__expenses--value",
       percentageLabel: ".budget__expenses--percentage",
-      containerDiv: ".container"
+      containerDiv: ".container",
+      expensePercentageLabel: ".item__percentage"
+    };
+
+    var nodeListForEach = function(list, callback) {
+        for(var i = 0; i < list.length; i++) {
+            callback(list[i], i);
+        }
     };
   
     return {
@@ -21,6 +28,16 @@ var uiController = (function() {
           description: document.querySelector(DOMstrings.inputDescription).value,
           value: parseInt(document.querySelector(DOMstrings.inputValue).value)
         };
+      },
+
+      displayPercentages: function(allPercentages) {
+          //Expensiin node(DOM-iin neg tag) listiig oloh
+        var elements = document.querySelectorAll(DOMstrings.expensePercentageLabel);
+
+        // elements bolgonii huvid expense percentages-iig array-s avch shivj oruulah
+        nodeListForEach(elements, function(el, index) {
+            el.textContent = allPercentages[index];
+        });
       },
   
       getDOMstrings: function() {
@@ -53,7 +70,7 @@ var uiController = (function() {
           document.querySelector(DOMstrings.percentageLabel).textContent =
             tusuv.huvi + "%";
         } else {
-          document.querySelector(DOMstrings.percentageLabel).textContent =
+            document.querySelector(DOMstrings.percentageLabel).textContent =
             tusuv.huvi;
         }
       },
@@ -105,6 +122,17 @@ var uiController = (function() {
       this.id = id;
       this.description = description;
       this.value = value;
+      this.percentage = -1;
+    };
+
+    Expense.prototype.calcPercentage = function(totalInc) {
+        if(totalInc > 0) {
+            this.percentage = Math.round((this.value / totalInc) * 100);
+        } else this.percentage = 0;
+    };
+
+    Expense.prototype.getPercentage = function(totalInc) {
+        return this.percentage;
     };
   
     var calculateTotal = function(type) {
@@ -143,9 +171,11 @@ var uiController = (function() {
   
         // Ð¢Ó©ÑÐ²Ð¸Ð¹Ð³ ÑˆÐ¸Ð½ÑÑÑ€ Ñ‚Ð¾Ð¾Ñ†Ð¾Ð¾Ð»Ð½Ð¾
         data.tusuv = data.totals.inc - data.totals.exp;
-  
-        // ÐžÑ€Ð»Ð¾Ð³Ð¾ Ð·Ð°Ñ€Ð»Ð°Ð³Ñ‹Ð½ Ñ…ÑƒÐ²Ð¸Ð¹Ð³ Ñ‚Ð¾Ð¾Ñ†Ð¾Ð¾Ð»Ð½Ð¾
-        data.huvi = Math.round((data.totals.exp / data.totals.inc) * 100);
+
+        if(data.totals.inc > 0) {
+            // ÐžÑ€Ð»Ð¾Ð³Ð¾ Ð·Ð°Ñ€Ð»Ð°Ð³Ñ‹Ð½ Ñ…ÑƒÐ²Ð¸Ð¹Ð³ Ñ‚Ð¾Ð¾Ñ†Ð¾Ð¾Ð»Ð½Ð¾
+            data.huvi = Math.round((data.totals.exp / data.totals.inc) * 100); 
+        } else data.huvi = 0;
       },
   
       tusviigAvah: function() {
@@ -187,6 +217,20 @@ var uiController = (function() {
   
         return item;
       },
+
+      calculatePercentages: function() {
+        data.items.exp.forEach(function(el) {
+            el.calcPercentage(data.totals.inc);
+        });
+      },
+
+      getPercentages: function() {
+          var allPercentages = data.items.exp.map(function(el) {
+            return el.getPercentage();
+          });
+
+          return allPercentages;
+      },
   
       seeData: function() {
         return data;
@@ -219,6 +263,8 @@ var uiController = (function() {
   
         //Budgetiig shineer tootsoolood ui-d uzuulne.
         updateBudget();
+    }
+};
 
         var updateBudget = function() {
             // 4. Ð¢Ó©ÑÐ²Ð¸Ð¹Ð³ Ñ‚Ð¾Ð¾Ñ†Ð¾Ð¾Ð»Ð½Ð¾
@@ -229,8 +275,15 @@ var uiController = (function() {
     
             // 6. Ð¢Ó©ÑÐ²Ð¸Ð¹Ð½ Ñ‚Ð¾Ð¾Ñ†Ð¾Ð¾Ð³ Ð´ÑÐ»Ð³ÑÑ†ÑÐ½Ð´ Ð³Ð°Ñ€Ð³Ð°Ð½Ð°.
             uiController.tusviigUzuuleh(tusuv);
-        }
-      }
+
+            //7. Percentage-iig tootsoolno.
+            financeController.calculatePercentages();
+
+            //8. Elementuudiin tootsoolson huviig huleej avna.
+            var allPercentages = financeController.getPercentages();
+
+            //9. Huviig delgetsend gargana.
+            uiController.displayPercentages(allPercentages);
     };
   
     var setupEventListeners = function() {
