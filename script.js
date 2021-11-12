@@ -69,3 +69,64 @@ var incDiv = document.querySelector('.inc');
 incDiv.insertAdjacentHTML('beforeend', 'Hello!');
 
 //focus will show where the cursor is
+
+
+
+
+var a = ['cat', 'mosue', 'bird', 'sun', 'moon'];
+
+console.log(a);
+a.splice(a.indexOf('bird'), 1);   //bird gesen element gantsaaraa ustna.
+a.splice(a.indexOf('moon'), 1);
+console.log(a);
+
+
+
+var Expense = function(id, description, value) {
+    this.id = id;
+    this.description = description;
+    this.value = value;
+  };
+
+  var e1 = new Expense(3, 'Food', 15000);
+  var e2 = new Expense(65, 'Shoes', 150080);
+  var e3 = new Expense(78, 'Leasing', 90000);
+  var e4 = new Expense(300, 'Gas', 399000);
+
+  var e = [e1, e2, e3, e4];
+
+  console.log(e);
+
+  //id = 2... iig haij olj ustgah heregtei.
+//   var ids = [2, 3, 65, 78, 300];
+
+//   e.splice(ids.indexOf(2), 1);
+
+var ids = e.map(function(el, index, array) {
+    return el.id;
+    // return Math.round(el.value/2848) + '$';
+});
+console.log(e);
+
+var index = ids.indexOf(320);
+if(index !== -1) e.splice(index, 1); 
+//1. element oldohgui bol -1 deh elementiig ustgadag.
+
+//2. indexOf elementiig -3 gesen utgatai ugvul hoinoos n toolj bgad 3 el ustgana.
+console.log(ids);
+
+console.log(e);
+
+
+
+//Split function. Hooson zaigaar n zadalj bolno.
+var str = "Unuudur saihan udur bna.";
+var x = str.split(" ");
+
+console.log(x.length);
+
+
+var str = "Expense-22";
+var x = str.split("-");
+
+console.log(x[1]);  //1dex element buyu 22iig salgaj avj bna.
