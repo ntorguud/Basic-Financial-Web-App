@@ -11,7 +11,7 @@ var uiController = (function() {
     incomeLabel: ".budget__income--value",
     expenseLabel: ".budget__expenses--value",
     percentageLabel: ".budget__expenses--percentage",
-    containerDiv: ".container clearfix"
+    containerDiv: ".container"
   };
 
   return {
@@ -150,7 +150,7 @@ var financeController = (function() {
         percent: data.percent,
         totalInc: data.totals.inc,
         totalExp = data.totals.exp
-      }
+      };
     },
 
     deleteItem: function(type, id) {
@@ -261,7 +261,7 @@ var appController = (function(uiController, financeController) {
         budget: 0,
         percent: 0,
         totalInc: 0,
-        total: 0
+        totalExp: 0
       });
       setupEventListeners();
     }
