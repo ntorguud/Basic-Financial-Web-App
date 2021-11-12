@@ -86,6 +86,11 @@ var uiController = (function() {
     };
   })();
   
+
+
+
+
+
   // Ð¡Ð°Ð½Ñ…Ò¯Ò¯Ñ‚ÑÐ¹ Ð°Ð¶Ð¸Ð»Ð»Ð°Ñ… ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€
   var financeController = (function() {
     // private data
@@ -188,6 +193,11 @@ var uiController = (function() {
       }
     };
   })();
+
+
+
+
+
   
   // ÐŸÑ€Ð¾Ð³Ñ€Ð°Ð¼Ñ‹Ð½ Ñ…Ð¾Ð»Ð±Ð¾Ð³Ñ‡ ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€
   var appController = (function(uiController, financeController) {
@@ -207,14 +217,19 @@ var uiController = (function() {
         uiController.addListItem(item, input.type);
         uiController.clearFields();
   
-        // 4. Ð¢Ó©ÑÐ²Ð¸Ð¹Ð³ Ñ‚Ð¾Ð¾Ñ†Ð¾Ð¾Ð»Ð½Ð¾
-        financeController.tusuvTootsooloh();
-  
-        // 5. Ð­Ñ†ÑÐ¸Ð¹Ð½ Ò¯Ð»Ð´ÑÐ³Ð´ÑÐ»,
-        var tusuv = financeController.tusviigAvah();
-  
-        // 6. Ð¢Ó©ÑÐ²Ð¸Ð¹Ð½ Ñ‚Ð¾Ð¾Ñ†Ð¾Ð¾Ð³ Ð´ÑÐ»Ð³ÑÑ†ÑÐ½Ð´ Ð³Ð°Ñ€Ð³Ð°Ð½Ð°.
-        uiController.tusviigUzuuleh(tusuv);
+        //Budgetiig shineer tootsoolood ui-d uzuulne.
+        updateBudget();
+
+        var updateBudget = function() {
+            // 4. Ð¢Ó©ÑÐ²Ð¸Ð¹Ð³ Ñ‚Ð¾Ð¾Ñ†Ð¾Ð¾Ð»Ð½Ð¾
+            financeController.tusuvTootsooloh();
+    
+            // 5. Ð­Ñ†ÑÐ¸Ð¹Ð½ Ò¯Ð»Ð´ÑÐ³Ð´ÑÐ»,
+            var tusuv = financeController.tusviigAvah();
+    
+            // 6. Ð¢Ó©ÑÐ²Ð¸Ð¹Ð½ Ñ‚Ð¾Ð¾Ñ†Ð¾Ð¾Ð³ Ð´ÑÐ»Ð³ÑÑ†ÑÐ½Ð´ Ð³Ð°Ñ€Ð³Ð°Ð½Ð°.
+            uiController.tusviigUzuuleh(tusuv);
+        }
       }
     };
   
@@ -251,6 +266,9 @@ var uiController = (function() {
             uiController.deleteListItem(id);
   
             // 3. Ò®Ð»Ð´ÑÐ³Ð´ÑÐ» Ñ‚Ð¾Ð¾Ñ†Ð¾Ð¾Ð³ ÑˆÐ¸Ð½ÑÑ‡Ð¸Ð»Ð¶ Ñ…Ð°Ñ€ÑƒÑƒÐ»Ð½Ð°.
+            //Budgetiig shineer tootsoolood ui-d uzuulne.
+            updateBudget();
+            
           }
         });
     };
