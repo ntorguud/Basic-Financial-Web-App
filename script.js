@@ -130,3 +130,30 @@ var str = "Expense-22";
 var x = str.split("-");
 
 console.log(x[1]);  //1dex element buyu 22iig salgaj avj bna.
+
+
+
+
+
+var a = '17773442939';
+
+
+var x = a.split("");
+
+var x = a.split("").reverse().join("");
+console.log("2. too " + x);
+
+var y = "";
+var count = 1;
+
+for(i = 0; i < x.length; i++) {
+    y = y + x[i];
+
+    if(count % 3 === 0) y = y + ",";
+    count++;
+}
+
+var z = y.split("").reverse().join("");
+if(z[0] === ",") z = z.substr(1, z.length - 1);
+
+console.log(z);

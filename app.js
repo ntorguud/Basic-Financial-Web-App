@@ -12,7 +12,8 @@ var uiController = (function() {
       expeseLabel: ".budget__expenses--value",
       percentageLabel: ".budget__expenses--percentage",
       containerDiv: ".container",
-      expensePercentageLabel: ".item__percentage"
+      expensePercentageLabel: ".item__percentage", 
+      dateLabel: ".budget__title--month"
     };
 
     var nodeListForEach = function(list, callback) {
@@ -20,14 +21,46 @@ var uiController = (function() {
             callback(list[i], i);
         }
     };
+
+    var formatMoney = function(number, type) {
+      number = "" + number;
+
+      var x = number.split("").reverse().join("");
+
+      var y = "";
+      var count = 1;
+
+      for(i = 0; i < x.length; i++) {
+          y = y + x[i];
+
+          if(count % 3 === 0) y = y + ",";
+          count++;
+      }
+
+      var z = y.split("").reverse().join("");
+
+      if(z[0] === ",") z = z.substr(1, z.length - 1);
+
+      if(type === 'inc') z = "+ " + z;
+      else z = "-" + z;
+
+      return z;
+    };
+
   
-    return {
+    return {   //public service buyu il
       getInput: function() {
         return {
           type: document.querySelector(DOMstrings.inputType).value, // exp, inc
           description: document.querySelector(DOMstrings.inputDescription).value,
           value: parseInt(document.querySelector(DOMstrings.inputValue).value)
         };
+      },
+
+      displayDate: function() {
+        var today = new Date();
+
+        document.querySelector(DOMstrings.dateLabel).textContent = today.getFullYear() + " оны " + today.getMonth() + " сарын "; 
       },
 
       displayPercentages: function(allPercentages) {
@@ -60,11 +93,18 @@ var uiController = (function() {
       },
   
       tusviigUzuuleh: function(tusuv) {
-        document.querySelector(DOMstrings.tusuvLabel).textContent = tusuv.tusuv;
+        var type;
+
+        if(tusuv.tusuv > 0) type = 'inc' 
+        else type = 'exp';
+
+        document.querySelector(DOMstrings.tusuvLabel).textContent = formatMoney(tusuv.tusuv, type);
+
         document.querySelector(DOMstrings.incomeLabel).textContent =
-          tusuv.totalInc;
-        document.querySelector(DOMstrings.expeseLabel).textContent =
-          tusuv.totalExp;
+          formatMoney(tusuv.totalInc, 'inc');
+
+        document.querySelector(DOMstrings.expeseLabel).textContent = formatMoney(
+          tusuv.totalExp, 'exp');
   
         if (tusuv.huvi !== 0) {
           document.querySelector(DOMstrings.percentageLabel).textContent =
@@ -95,7 +135,7 @@ var uiController = (function() {
         // Ð¢ÑÑ€ HTML Ð´Ð¾Ñ‚Ñ€Ð¾Ð¾ Ð¾Ñ€Ð»Ð¾Ð³Ð¾ Ð·Ð°Ñ€Ð»Ð°Ð³Ñ‹Ð½ ÑƒÑ‚Ð³ÑƒÑƒÐ´Ñ‹Ð³ REPLACE Ð°ÑˆÐ¸Ð³Ð»Ð°Ð¶ Ó©Ó©Ñ€Ñ‡Ð¸Ð»Ð¶
         html = html.replace("%id%", item.id);
         html = html.replace("$$DESCRIPTION$$", item.description);
-        html = html.replace("$$VALUE$$", item.value);
+        html = html.replace("$$VALUE$$", format.money(item.value, type));
   
         // Ð‘ÑÐ»Ñ‚Ð³ÑÑÑÐ½ HTML ÑÑ DOM Ñ€ÑƒÑƒ Ñ…Ð¸Ð¹Ð¶ Ó©Ð³Ð½Ó©.
         document.querySelector(list).insertAdjacentHTML("beforeend", html);
@@ -329,6 +369,7 @@ var uiController = (function() {
     return {
       init: function() {
         console.log("Application started...");
+        uiController.displayDate();
         uiController.tusviigUzuuleh({
           tusuv: 0,
           huvi: 0,
