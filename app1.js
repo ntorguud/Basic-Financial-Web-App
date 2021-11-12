@@ -62,6 +62,11 @@ var uiController = (function() {
       }
     },
 
+    deleteListItem: function(id) {
+      var el = document.getElementById(id);
+      el.parentNode.removeChild(el);
+    },
+
     addListItem: function(item, type) {
       // ÐžÑ€Ð»Ð¾Ð³Ð¾ Ð·Ð°Ñ€Ð»Ð°Ð³Ñ‹Ð½ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð¸Ð¹Ð³ Ð°Ð³ÑƒÑƒÐ»ÑÐ°Ð½ html-Ð¸Ð¹Ð³ Ð±ÑÐ»Ñ‚Ð³ÑÐ½Ñ.
       var html, list;
@@ -242,6 +247,7 @@ var appController = (function(uiController, financeController) {
         financeController.deleteItem(type, itemId);
 
         //2. UI-s ene elementiig ustgana.
+        uiController.deleteListItem(id);
 
         //3. Uldegdel tootsoog update hiij haruulna.
       }  
